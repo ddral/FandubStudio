@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фендъб Студио</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f1b, #19192b, #0f0f1b);
+            color: #e0e0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 700px;
+            background: rgba(15, 15, 30, 0.92);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(80, 100, 200, 0.15);
+            max-height: 95vh;
+        }
+
+        header {
+            background: linear-gradient(to right, #0a0a1a, #1a1a3a, #0a0a1a);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(90, 120, 220, 0.3);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: #f0f4ff;
+            text-shadow: 0 0 10px rgba(100, 150, 255, 0.4);
+            font-weight: 100;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #a0a8d0;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .progress-section {
+            padding: 12px 20px;
+            background: rgba(20, 20, 40, 0.6);
+            border-bottom: 1px solid rgba(70, 90, 180, 0.2);
+            position: relative;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 16px;
+            background: rgba(40, 50, 100, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a6cfa, #6a8cff);
+            border-radius: 8px;
+            width: 0%;
+            transition: width 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: 0 0 8px rgba(74, 108, 250, 0.4);
+        }
+
+        .progress-text {
+            font-weight: 500;
+            min-width: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #c0d0ff;
+        }
+
+        .script-display {
+            padding: 15px 20px;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            background: rgba(10, 10, 25, 0.4);
+            border-bottom: 1px solid rgba(60, 80, 160, 0.15);
+            border-top: 1px solid rgba(60, 80, 160, 0.15);
+            position: relative;
+            font-weight: 300;
+        }
+
+        .line-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(74, 108, 250, 0.15);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #a0b8ff;
+        }
+
+        .controls {
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .btn:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .record-btn {
+            background: linear-gradient(135deg, #4a6cfa, #3a5cfa);
+            color: white;
+            min-width: 160px;
+        }
+
+        .record-btn.recording {
+            animation: pulse 1.8s infinite;
+            background: linear-gradient(135deg, #fa4a4a, #fa3a3a);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #4a9cfa, #3a8cfa);
+            color: white;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #4afaa0, #3afa90);
+            color: #0a1a20;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #6a4afa, #5a3afa);
+            color: white;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #fa6a4a, #fa5a3a);
+            color: white;
+        }
+
+        .visualizer-container {
+            padding: 12px 20px 15px;
+            background: rgba(15, 20, 40, 0.5);
+        }
+
+        .visualizer {
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            background: rgba(10, 15, 30, 0.4);
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid rgba(70, 90, 180, 0.2);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .bar {
+            width: 6px;
+            background: linear-gradient(to top, #4a6cfa, #6a8cff);
+            border-radius: 3px 3px 0 0;
+            height: 10%;
+            transition: height 0.08s ease-out;
+        }
+
+        .audio-level-meter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding: 0 8px;
+        }
+
+        .level-indicator {
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background: rgba(30, 40, 80, 0.4);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .level-indicator.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .level-too-loud {
+            color: #ff6a6a;
+            background: rgba(150, 40, 40, 0.25);
+        }
+
+        .level-too-quiet {
+            color: #6a9aff;
+            background: rgba(40, 80, 150, 0.25);
+        }
+
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px;
+            color: #ff6a6a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .recording-indicator.active {
+            opacity: 1;
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            background: #ff4a4a;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+            box-shadow: 0 0 8px rgba(255, 74, 74, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #7078a0;
+            font-size: 0.8rem;
+            font-weight: 300;
+            border-top: 1px solid rgba(70, 90, 180, 0.15);
+        }
+
+        .completion-message {
+            display: none;
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(135deg, rgba(20, 40, 80, 0.6), rgba(10, 20, 50, 0.7));
+            border-radius: 12px;
+            margin: 20px;
+            animation: fadeIn 1s ease;
+            border: 1px solid rgba(90, 130, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .completion-message h2 {
+            color: #f0f8ff;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(100, 180, 255, 0.7);
+            font-weight: 100;
+        }
+
+        .completion-message p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #c0d0ff;
+        }
+
+        .download-section {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0 8px;
+        }
+
+        .audio-level-info {
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: #a0b8ff;
+            font-weight: 300;
+        }
+
+        .audio-level-value {
+            font-weight: 500;
+            color: #c0d0ff;
+        }
+
+        /* Reset button styles */
+        .reset-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #a0a8d0;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .reset-btn:hover {
+            color: #ff6a6a;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 74, 74, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 74, 74, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 74, 74, 0); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Mobile-specific improvements */
+        @media (max-width: 600px) {
+            html, body {
+                overflow: auto;
+                height: auto;
+            }
+            
+            .container {
+                max-height: none;
+                max-width: 95%;
+                margin: 20px auto;
+                min-height: 95vh;
+                overflow: visible;
+            }
+            
+            header {
+                padding: 12px 10px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+                letter-spacing: 0.5px;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .progress-section {
+                padding: 10px 15px;
+            }
+            
+            .progress-bar {
+                height: 12px;
+            }
+            
+            .progress-text {
+                min-width: 45px;
+                font-size: 0.85rem;
+            }
+            
+            .script-display {
+                min-height: 130px;
+                padding: 12px 15px;
+                font-size: 1.3rem;
+                line-height: 1.5;
+            }
+            
+            .line-number {
+                top: 6px;
+                right: 6px;
+                font-size: 0.8rem;
+                padding: 3px 10px;
+            }
+            
+            .recording-indicator {
+                font-size: 0.9rem;
+                padding: 6px;
+            }
+            
+            .visualizer-container {
+                padding: 10px 15px;
+            }
+            
+            .visualizer {
+                height: 70px;
+                padding: 8px;
+            }
+            
+            .controls {
+                padding: 12px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: none;
+                padding: 14px 20px;
+                font-size: 1rem;
+                justify-content: center;
+                border-radius: 12px;
+            }
+            
+            .record-btn {
+                min-width: auto;
+                order: 1;
+                background: linear-gradient(135deg, #4a6cfa, #3a5cfa);
+            }
+            
+            .next-btn {
+                order: 2;
+                background: linear-gradient(135deg, #4a9cfa, #3a8cfa);
+            }
+            
+            .play-btn {
+                order: 3;
+                background: linear-gradient(135deg, #4afaa0, #3afa90);
+            }
+            
+            .complete-btn {
+                order: 4;
+                background: linear-gradient(135deg, #6a4afa, #5a3afa);
+            }
+            
+            .audio-level-info {
+                font-size: 0.85rem;
+            }
+            
+            .level-indicator {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+            
+            .completion-message {
+                padding: 20px 15px;
+                margin: 15px;
+            }
+            
+            .completion-message h2 {
+                font-size: 1.6rem;
+            }
+            
+            .completion-message p {
+                font-size: 0.95rem;
+            }
+            
+            footer {
+                padding: 12px 10px;
+                font-size: 0.75rem;
+            }
+
+            .reset-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 8px;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+        
+        /* Additional optimizations for very small screens */
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .script-display {
+                font-size: 1.2rem;
+                min-height: 120px;
+            }
+            
+            .btn {
+                padding: 13px 16px;
+                font-size: 0.95rem;
+            }
+            
+            .visualizer {
+                height: 60px;
+            }
+            
+            .completion-message h2 {
+                font-size: 1.4rem;
+            }
+            
+            .completion-message p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Desktop-specific adjustments */
+        @media (min-width: 601px) {
+            .container {
+                width: 90%;
+            }
+            
+            .controls {
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ФАНДЪБ СТУДИО</h1>
+            <p class="subtitle">Благодаря на всички участници за отдадеността!</p>
+            <button id="reset-btn" class="reset-btn">
+                <i class="fas fa-trash-alt"></i> Изтрий прогреса
+            </button>
+        </header>
+        
+        <section class="progress-section">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0%</div>
+            </div>
+        </section>
+        
+        <section class="script-display">
+            <div id="script-line">Натиснете бутона за запис, за да започнете професионалната сесия за озвучаване</div>
+            <div class="line-number" id="line-number">Реплика 1 от 10</div>
+        </section>
+        
+        <div class="recording-indicator" id="recording-indicator">
+            <div class="recording-dot"></div>
+            <span>ЗАПИС В ПРОЦЕС</span>
+        </div>
+        
+        <div class="visualizer-container">
+            <div class="visualizer" id="visualizer"></div>
+            <div class="audio-level-info">
+                Текущо ниво: <span class="audio-level-value" id="audio-level-value">-∞ dB</span>
+            </div>
+            <div class="audio-level-meter">
+                <div class="level-indicator level-too-quiet" id="too-quiet">ТВЪРДЕ СИ ТИХ</div>
+                <div class="level-indicator level-too-loud" id="too-loud">ТВЪРДЕ СИ ШУМЕН</div>
+            </div>
+        </div>
+        
+        <section class="controls">
+            <button class="btn record-btn" id="record-btn">
+                <i class="fas fa-microphone"></i> Начало на записа
+            </button>
+            <button class="btn next-btn" id="next-btn" style="display: none;">
+                <i class="fas fa-arrow-right"></i> Следваща реплика
+            </button>
+            <button class="btn play-btn" id="play-btn" disabled>
+                <i class="fas fa-play"></i> Плейбек
+            </button>
+            <button class="btn complete-btn" id="complete-btn" style="display: none;">
+                <i class="fas fa-check"></i> Затвори сесията
+            </button>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h2>ПОЗДРАВЛЕНИЯ! ТИ УСПЯ</h2>
+            <p>Гордея се с теб! Ти записа всичко! Сега ти остава само да изтеглиш репликите и да ми ги пратиш. Натисни бутона за изтегляне по-долу!</p>
+            <div class="download-section">
+                <button class="btn download-btn" id="download-btn">
+                    <i class="fas fa-download"></i> Изтегляне на репликите
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Всички записи се осъществяват в браузъра и не се съхраняват никъде освен на твоето устройство.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const recordBtn = document.getElementById('record-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const playBtn = document.getElementById('play-btn');
+            const completeBtn = document.getElementById('complete-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const scriptLine = document.getElementById('script-line');
+            const lineNumber = document.getElementById('line-number');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const recordingIndicator = document.getElementById('recording-indicator');
+            const visualizer = document.getElementById('visualizer');
+            const tooQuiet = document.getElementById('too-quiet');
+            const tooLoud = document.getElementById('too-loud');
+            const completionMessage = document.getElementById('completion-message');
+            const audioLevelValue = document.getElementById('audio-level-value');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            // Create visualizer bars
+            for (let i = 0; i < 64; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                visualizer.appendChild(bar);
+            }
+            const bars = document.querySelectorAll('.bar');
+            
+            // Sample script lines
+            const scriptLines = [
+                "Все говори някакви несвързани неща...",
+                "Сладур.",
+                "Какъв сладур!",
+                "Просто не ми обръщай внимание.",
+                "Продължавайте.",
+                "Масаки, цветя ли си купил?",
+                "Странно.",
+                "А?",
+                "Ясно.",
+                "Тези подробности лесно се пропускат в изцяло мъжко домакинство, така че това е хубаво.",
+                "Днес щеше да излизаш, нали?",
+                "Внимавай.",
+                "Аз съм на работа само до обяд, така че можем да се приберем заедно.",
+                "Просто ми звънни.",
+                "До после.",
+                "Да.",
+                "Всъщност май аз съм този, който гледат накриво.",
+                "Да, само да бях забелязал по-рано.",
+                "Честно, тези хора... Наистина ме вбесяват.",
+                "О, не говори глупости.",
+                "Никакъв проблем, Мацуо-кун.",
+                "Изобщо не ми е тежко.",
+                "Да виждам усмивките на семейството ми е единственото, което има значение.",
+                "Тц. Нима не виждаш колко са прекрасни?!",
+                "Трябва ли да пусна звука, за да го разбереш?!",
+                "Е, какво става тук?",
+                "Там ли си, Хикари.",
+                "Колата е точно отвън.",
+                "Да не ви прекъснах?",
+                "Възможно е. Да се прибираме веднага.",
+                "Хайде.",
+                "Наистина много я харесваш тази бенка, а?",
+                "Все пак е и твое дете.",
+                "Направи го и на мен.",
+                "И аз имам бенка, все пак.",
+                "Хайде. Ето тук.",
+                "Давай.",
+                "Галиш косата ми със същата ръка, и ме целуваш със същите устни...",
+                "Но с мен стават палави. Това ми харесва.",
+                "Чух, че някой от новобранците ни ти се е натискал?",
+                "Да не би пак да ти се проявяват черногледите наклонности?",
+                "Добре.",
+                "Да премисляш нещата е твоят лош навик.",
+                "Единственото, което ме притеснява, са тези твои феромони.",
+                "Видях как те гледаше.",
+                "Да.",
+                "И да не си го забравил, Масаки.",
+                "Обичам всичко, абсолютно всичко в теб.",
+                "Добро утро, Хикари.",
+                "Въпреки че всъщност е вечер.",
+                "Масаки спи, така че ще трябва да си играеш с татко.",
+                "Точно така. Много си умен.",
+                "Хей, Хикари.",
+                "Да не би да плака, защото усети, че на Масаки му е тежко?",
+                "Да, сигурно е така.",
+                "И аз.",
+                "Да го пазим заедно.",
+                "И разбира се, Масаки и аз ще пазим теб!",
+                "А ти и Масаки ще трябва да пазите мен.",
+                "Какво?!",
+                "Може би трябваше да взема по-голяма.",
+                "За какво дете ме мислиш?",
+                "Изглежда добре.",
+                "Хикари, ела тук.",
+                "Искаш ли ти да сложиш финалния щрих?",
+                "Точно така. Слагаме я на върха.",
+                "Добре, действай!",
+                "Тази звезда е точно като теб, Хикари.",
+                "Блестяща звезда на надеждата, която ни води.",
+                "Това си ти за мен и Масаки.",
+                "Затова и те кръстихме „Хикари“, което означава „светлина“.",
+                "Е, това сигурно ти е малко сложно за разбиране сега...",
+                "Но хайде, сложи я.",
+                "Браво!",
+                "Прибрах се.",
+                "Малкият ни принц е малко кисел, а?",
+                "Очичките му са целите червени.",
+                "Колко ярко! Целият блести!",
+                "Да, толкова, толкова е хубаво!",
+                "Така се изплаших, като го чух да плаче и после разговорът прекъсна."
+            ];
+            
+            // App state
+            let currentLineIndex = 0;
+            let isRecording = false;
+            let mediaRecorder;
+            let audioChunks = [];
+            let audioBlob;
+            let audioUrl;
+            let audioContext;
+            let analyser;
+            let microphone;
+            let javascriptNode;
+            let animationId;
+            let allRecordings = [];
+            let audioLevel = -100; // Start with very low level
+            let hasRecordingForCurrentLine = false;
+            
+            // Helper: Convert Blob to Data URL (returns a Promise)
+            function blobToDataURL(blob) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            }
+
+            // Initialize the app
+            function init() {
+                // Load saved state from localStorage
+                loadState();
+                
+                updateScriptLine();
+                updateProgress();
+                setupVisualizer();
+            }
+            
+            // Save app state to localStorage (async for blobs)
+            async function saveState() {
+                // Convert all blobs to data URLs for storage
+                const recordingsForStorage = await Promise.all(
+                    allRecordings.map(async rec => {
+                        if (rec && rec.blob) {
+                            const url = await blobToDataURL(rec.blob);
+                            return {
+                                text: rec.text,
+                                url: url,
+                                blobType: rec.blob.type
+                            };
+                        }
+                        return null;
+                    })
+                );
+                const state = {
+                    currentLineIndex: currentLineIndex,
+                    allRecordings: recordingsForStorage
+                };
+                localStorage.setItem('fandubState', JSON.stringify(state));
+            }
+            
+            // Load app state from localStorage
+            function loadState() {
+                const savedState = localStorage.getItem('fandubState');
+                if (savedState) {
+                    try {
+                        const state = JSON.parse(savedState);
+                        currentLineIndex = state.currentLineIndex || 0;
+                        // Restore recordings
+                        if (state.allRecordings && Array.isArray(state.allRecordings)) {
+                            allRecordings = state.allRecordings.map(rec => {
+                                if (rec) {
+                                    // Convert data URL back to Blob
+                                    const byteString = atob(rec.url.split(',')[1]);
+                                    const mimeString = rec.url.split(',')[0].split(':')[1].split(';')[0];
+                                    const ab = new ArrayBuffer(byteString.length);
+                                    const ia = new Uint8Array(ab);
+                                    for (let i = 0; i < byteString.length; i++) {
+                                        ia[i] = byteString.charCodeAt(i);
+                                    }
+                                    const blob = new Blob([ab], {type: mimeString});
+                                    return {
+                                        blob: blob,
+                                        url: URL.createObjectURL(blob),
+                                        text: rec.text
+                                    };
+                                }
+                                return null;
+                            });
+                        }
+                        // Update UI based on restored state
+                        updateScriptLine();
+                        updateProgress();
+                        // Check if all lines have recordings (session complete)
+                        const allDone = allRecordings.length === scriptLines.length && allRecordings.every(r => r);
+                        if (allDone) {
+                            // Show completion message and hide other elements
+                            completionMessage.style.display = 'block';
+                            document.querySelector('.script-display').style.display = 'none';
+                            document.querySelector('.visualizer-container').style.display = 'none';
+                            document.querySelector('.recording-indicator').style.display = 'none';
+                            completeBtn.style.display = 'none';
+                            recordBtn.style.display = 'none';
+                            playBtn.style.display = 'none';
+                        } else {
+                            // Not completed, show normal UI
+                            completionMessage.style.display = 'none';
+                            document.querySelector('.script-display').style.display = 'flex';
+                            document.querySelector('.visualizer-container').style.display = 'block';
+                            document.querySelector('.recording-indicator').style.display = 'flex';
+                            recordBtn.style.display = 'inline-flex';
+                            playBtn.style.display = 'inline-flex';
+                            // Set play button and record button state
+                            if (allRecordings[currentLineIndex]) {
+                                hasRecordingForCurrentLine = true;
+                                playBtn.disabled = false;
+                                recordBtn.innerHTML = '<i class="fas fa-redo"></i> Презаписване';
+                                if (currentLineIndex === scriptLines.length - 1) {
+                                    completeBtn.style.display = 'inline-flex';
+                                    nextBtn.style.display = 'none';
+                                } else {
+                                    nextBtn.style.display = 'inline-flex';
+                                    completeBtn.style.display = 'none';
+                                }
+                            } else {
+                                hasRecordingForCurrentLine = false;
+                                playBtn.disabled = true;
+                                recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Запис на реплика';
+                                nextBtn.style.display = 'none';
+                                completeBtn.style.display = 'none';
+                            }
+                        }
+                        console.log('State restored from localStorage');
+                    } catch (e) {
+                        console.error('Error loading state:', e);
+                        // Reset to default if there's an error
+                        resetState();
+                    }
+                } else {
+                    // No saved state, ensure UI is reset
+                    resetState();
+                }
+            }
+            
+            // Reset app state
+            function resetState() {
+                currentLineIndex = 0;
+                allRecordings = [];
+                audioBlob = null;
+                audioUrl = null;
+                hasRecordingForCurrentLine = false;
+                
+                // Clear localStorage
+                localStorage.removeItem('fandubState');
+                
+                // Reset UI
+                playBtn.disabled = true;
+                recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Запис на реплика';
+                nextBtn.style.display = 'none';
+                completeBtn.style.display = 'none';
+                
+                // Hide completion message
+                completionMessage.style.display = 'none';
+                document.querySelector('.script-display').style.display = 'flex';
+                document.querySelector('.visualizer-container').style.display = 'block';
+                recordBtn.style.display = 'inline-flex';
+                playBtn.style.display = 'inline-flex';
+                
+                // Update script and progress
+                updateScriptLine();
+                updateProgress();
+                
+                // Revoke all object URLs
+                allRecordings.forEach(rec => {
+                    if (rec && rec.url) {
+                        URL.revokeObjectURL(rec.url);
+                    }
+                });
+                // Save state to localStorage (async)
+                saveState();
+            }
+            
+            // Update the script display
+            function updateScriptLine() {
+                scriptLine.textContent = scriptLines[currentLineIndex];
+                lineNumber.textContent = `Реплика ${currentLineIndex + 1} от ${scriptLines.length}`;
+            }
+            
+            // Update progress bar
+            function updateProgress() {
+                const progress = (currentLineIndex / scriptLines.length) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+            }
+            
+            // Setup audio visualization
+            function setupVisualizer() {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                // Remove ScriptProcessorNode usage for dB calculation
+                // We'll use analyser.getByteTimeDomainData for volume
+
+                function animate() {
+                    animationId = requestAnimationFrame(animate);
+
+                    if (!isRecording || !microphone) {
+                        // Show idle animation when not recording
+                        const time = Date.now() * 0.003;
+                        bars.forEach((bar, i) => {
+                            const height = 15 + Math.sin(time + i * 0.2) * 15;
+                            bar.style.height = `${height}%`;
+                        });
+                        audioLevelValue.textContent = '-∞ dB';
+                        tooQuiet.classList.remove('active');
+                        tooLoud.classList.remove('active');
+                        return;
+                    }
+
+                    // Get waveform data
+                    const dataArray = new Uint8Array(analyser.fftSize);
+                    analyser.getByteTimeDomainData(dataArray);
+
+                    // Calculate RMS for dB
+                    let sumSquares = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        const normalized = (dataArray[i] - 128) / 128;
+                        sumSquares += normalized * normalized;
+                    }
+                    const rms = Math.sqrt(sumSquares / dataArray.length);
+                    const dB = 20 * Math.log10(rms);
+                    audioLevel = isFinite(dB) ? dB : -100;
+                    audioLevelValue.textContent = `${audioLevel.toFixed(1)} dB`;
+
+                    // Update audio level warnings
+                    tooQuiet.classList.toggle('active', audioLevel < -20);
+                    tooLoud.classList.toggle('active', audioLevel > 1);
+
+                    // Visualizer bars (use frequency data for more dynamic look)
+                    const freqData = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(freqData);
+                    for (let i = 0; i < bars.length; i++) {
+                        const value = freqData[i % freqData.length];
+                        const percent = value / 255;
+                        const height = Math.max(10, percent * 100);
+                        bars[i].style.height = `${height}%`;
+                    }
+                }
+                animate();
+            }
+            
+            // Start recording with denoising disabled
+            async function startRecording() {
+                try {
+                    audioChunks = [];
+                    const constraints = {
+                        audio: {
+                            noiseSuppression: false,
+                            echoCancellation: false,
+                            autoGainControl: false
+                        }
+                    };
+
+                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    // Resume AudioContext on user gesture (required for Chrome)
+                    if (audioContext.state === 'suspended') {
+                        await audioContext.resume();
+                    }
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    // Create audio source
+                    microphone = audioContext.createMediaStreamSource(stream);
+                    microphone.connect(analyser);
+                    // No ScriptProcessorNode needed
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        audioUrl = URL.createObjectURL(audioBlob);
+                        playBtn.disabled = false;
+
+                        // Store this recording
+                        allRecordings[currentLineIndex] = {
+                            blob: audioBlob,
+                            url: audioUrl,
+                            text: scriptLines[currentLineIndex]
+                        };
+
+                        // Update button text for re-recording
+                        recordBtn.innerHTML = '<i class="fas fa-redo"></i> Презаписване';
+                        hasRecordingForCurrentLine = true;
+
+                        // Save state to localStorage (async)
+                        saveState();
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordBtn.innerHTML = '<i class="fas fa-square"></i> Спри записа';
+                    recordBtn.classList.add('recording');
+                    recordingIndicator.classList.add('active');
+                    nextBtn.style.display = 'none';
+                    completeBtn.style.display = 'none';
+
+                    // Reset audio level warnings
+                    tooQuiet.classList.remove('active');
+                    tooLoud.classList.remove('active');
+                } catch (err) {
+                    console.error("Error accessing microphone:", err);
+                    alert("Неуспешен достъп до микрофона. Моля, проверете разрешенията и опитайте отново.");
+                }
+            }
+            
+            // Stop recording
+            function stopRecording() {
+                if (mediaRecorder && isRecording) {
+                    mediaRecorder.stop();
+                    isRecording = false;
+                    recordBtn.classList.remove('recording');
+                    recordingIndicator.classList.remove('active');
+
+                    // Disconnect audio nodes
+                    if (microphone) {
+                        microphone.disconnect();
+                        microphone = null;
+                    }
+                    // No ScriptProcessorNode to disconnect
+
+                    // Show appropriate button
+                    if (currentLineIndex === scriptLines.length - 1) {
+                        completeBtn.style.display = 'inline-flex';
+                    } else {
+                        nextBtn.style.display = 'inline-flex';
+                    }
+
+                    // Save state to localStorage (async)
+                    saveState();
+                }
+            }
+            
+            // Play the recorded audio for the current line
+            function playRecording() {
+                if (audioUrl) {
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                }
+            }
+            
+            // Merge all recordings into a single audio file
+            function mergeAndDownloadRecordings() {
+                if (allRecordings.length === 0) return;
+                
+                try {
+                    // Create a container for merged audio
+                    const mergedAudio = new Blob(
+                        allRecordings.map(rec => rec.blob), 
+                        { type: 'audio/webm' }
+                    );
+                    
+                    const mergedUrl = URL.createObjectURL(mergedAudio);
+                    
+                    // Create download link
+                    const a = document.createElement('a');
+                    a.href = mergedUrl;
+                    a.download = `professional-fandub-${new Date().toISOString().slice(0, 10)}.webm`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    // Clean up
+                    URL.revokeObjectURL(mergedUrl);
+                } catch (err) {
+                    console.error("Error merging recordings:", err);
+                    alert("Неуспешно сливане на записите. Моля, опитайте отново.");
+                }
+            }
+            
+            // Move to next line
+            function nextLine() {
+                if (currentLineIndex < scriptLines.length - 1) {
+                    currentLineIndex++;
+                    updateScriptLine();
+                    updateProgress();
+                    playBtn.disabled = true;
+                    nextBtn.style.display = 'none';
+                    
+                    // Reset recording state
+                    audioBlob = null;
+                    audioUrl = null;
+                    hasRecordingForCurrentLine = false;
+                    
+                    // Reset record button
+                    recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Запис на реплика';
+                    
+                    // Save state to localStorage (async)
+                    saveState();
+                }
+            }
+            
+            // Complete the session
+            function completeSession() {
+                // Update to 100% progress
+                progressFill.style.width = '100%';
+                progressText.textContent = '100%';
+                
+                // Show completion message
+                completionMessage.style.display = 'block';
+                
+                // Hide other elements
+                document.querySelector('.script-display').style.display = 'none';
+                document.querySelector('.visualizer-container').style.display = 'none';
+                document.querySelector('.recording-indicator').style.display = 'none';
+                completeBtn.style.display = 'none';
+                recordBtn.style.display = 'none';
+                playBtn.style.display = 'none';
+                
+                // Save state to localStorage
+                saveState();
+            }
+            
+            // Event Listeners
+            recordBtn.addEventListener('click', () => {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    startRecording();
+                }
+            });
+            
+            nextBtn.addEventListener('click', nextLine);
+            
+            playBtn.addEventListener('click', playRecording);
+            
+            completeBtn.addEventListener('click', completeSession);
+            
+            downloadBtn.addEventListener('click', mergeAndDownloadRecordings);
+            
+            resetBtn.addEventListener('click', () => {
+                if (confirm("Сигурни ли сте, че искате да изтриете целия прогрес? Това действие не може да бъде отменено.")) {
+                    resetState();
+                }
+            });
+            
+            // Initialize the app
+            init();
+        });
+    </script>
+</body>
+</html>
